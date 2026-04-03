@@ -213,6 +213,12 @@ The platform includes comprehensive demo data:
 - Business licensing pathways
 - Microfinance compliance
 
+## 🇰🇪 Kenya-First Build Track
+
+If you are implementing the real MVP now, start with the Kenya execution blueprint:
+
+- `KENYA_MVP_EXECUTION_PLAN.md` - scope lock, architecture, data model, APIs, 16-week milestones, and acceptance criteria
+
 ## 📈 Roadmap
 
 ### Phase 1 (MVP)
