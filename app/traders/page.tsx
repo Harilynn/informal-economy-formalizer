@@ -162,14 +162,6 @@ export default function TradersPage() {
             <p className="mt-4 text-muted-foreground">Loading traders...</p>
           </div>
         ) : filteredTraders.length === 0 ? (
-          <motion.div
-            className="text-center py-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            <p className="text-muted-foreground text-lg">No traders found matching your search.</p>
-          </motion.div>
-        ) : (
           <div className="text-center py-12">
             <p className="text-muted-foreground text-lg">No traders found matching your search.</p>
           </div>
@@ -228,11 +220,9 @@ export default function TradersPage() {
                           {trader.signals.map((signal, idx) => (
                             <div key={idx} className="flex-1">
                               <div className="bg-background rounded h-2 overflow-hidden">
-                                <motion.div
-                                  className="bg-gradient-to-r from-primary to-accent h-full"
-                                  initial={{ width: 0 }}
-                                  animate={{ width: `${signal.strength}%` }}
-                                  transition={{ duration: 1, delay: idx * 0.1 }}
+                                <div
+                                  className="bg-gradient-to-r from-primary to-accent h-full transition-all duration-1000"
+                                  style={{ width: `${signal.strength}%` }}
                                 />
                               </div>
                               <p className="text-xs text-muted-foreground mt-1 capitalize">
