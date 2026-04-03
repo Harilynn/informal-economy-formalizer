@@ -40,9 +40,9 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { getTraderById, generateCreditProfile } from '@/lib/mock-data'
-import { assessFraudRisk } from '@/lib/fraud-detection'
+import { assessFraudRisk, analyzeSignalSpoofing } from '@/lib/fraud-detection'
 import { generateComplianceReport } from '@/lib/regulatory-compliance'
-import { analyzeTraderComprehensive } from '@/lib/ai-analysis'
+import { analyzeTraderComprehensive, constructEconomicIdentity } from '@/lib/ai-analysis'
 import { Trader } from '@/lib/mock-data'
 
 export default function TraderDetailPage({ params }: { params: { id: string } }) {
@@ -51,6 +51,7 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
   const [analysis, setAnalysis] = useState<any>(null)
   const [fraud, setFraud] = useState<any>(null)
   const [compliance, setCompliance] = useState<any>(null)
+  const [identity, setIdentity] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -66,7 +67,9 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
         setCreditProfile(generateCreditProfile(traderData))
         setFraud(assessFraudRisk(traderData))
         setCompliance(generateComplianceReport(traderData))
+        setIdentity(constructEconomicIdentity(traderData))
 
+        // Get AI analysis
         const aiAnalysis = await analyzeTraderComprehensive(traderData)
         setAnalysis(aiAnalysis)
       } catch (error) {
@@ -109,10 +112,12 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
 
   return (
     <div className="min-h-screen pt-24 pb-20">
+      {/* Animated Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <div className="absolute top-1/3 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse-slow" />
       </div>
 
+      {/* Header */}
       <div className="max-w-7xl mx-auto px-4 mb-8">
         <Link href="/traders" className="flex items-center gap-2 text-primary mb-4 hover:text-primary/80">
           <ArrowLeft className="w-4 h-4" />
@@ -144,6 +149,7 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
       </div>
 
       <div className="max-w-7xl mx-auto px-4 space-y-8">
+        {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
             <CardContent className="pt-6">
@@ -174,6 +180,7 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
           </Card>
         </div>
 
+        {/* Tabs Section */}
         <div>
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-5">
@@ -184,6 +191,7 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
               <TabsTrigger value="analysis">AI Analysis</TabsTrigger>
             </TabsList>
 
+            {/* Overview Tab */}
             <TabsContent value="overview" className="space-y-6 mt-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <Card className="lg:col-span-1">
@@ -236,34 +244,45 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
               </div>
             </TabsContent>
 
+            {/* Signals Tab */}
             <TabsContent value="signals" className="space-y-6 mt-6">
               <div className="space-y-4">
                 {trader.signals.map((signal, idx) => (
-                  <Card key={idx}>
-                    <CardContent className="pt-6">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <h3 className="font-semibold capitalize">{signal.type.replace('_', ' ')}</h3>
-                          <p className="text-sm text-muted-foreground">{signal.evidence}</p>
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <h3 className="font-semibold capitalize">{signal.type.replace('_', ' ')}</h3>
+                            <p className="text-sm text-muted-foreground">{signal.evidence}</p>
+                          </div>
+                          <Badge className="bg-green-50 text-green-700">{signal.strength}%</Badge>
                         </div>
-                        <Badge className="bg-green-50 text-green-700">{signal.strength}%</Badge>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <div
-                          className="bg-gradient-to-r from-primary to-accent h-full rounded-full transition-all duration-1000"
-                          style={{ width: `${signal.strength}%` }}
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
+                        <div className="w-full bg-muted rounded-full h-2">
+                          <motion.div
+                            className="bg-gradient-to-r from-primary to-accent h-full rounded-full"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${signal.strength}%` }}
+                            transition={{ duration: 1, delay: 0.2 }}
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
                 ))}
               </div>
             </TabsContent>
 
+            {/* Fraud Check Tab */}
             <TabsContent value="fraud" className="space-y-6 mt-6">
               {fraud && (
                 <div className="space-y-4">
-                  <Card className={fraud[0]?.riskLevel === 'high' ? 'border-red-500/20 bg-red-50/50' : 'border-green-500/20 bg-green-50/50'}>
+                  <Card className={fraud[0]?.riskLevel === 'high' ? 'border-red-500/20 bg-red-50/50 dark:bg-red-950/20' : 'border-green-500/20 bg-green-50/50 dark:bg-green-950/20'}>
                     <CardContent className="pt-6">
                       <div className="flex items-start gap-3">
                         {fraud[0]?.riskLevel === 'high' ? (
@@ -278,7 +297,7 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
                           <p className="text-sm text-muted-foreground">
                             {fraud.length === 0
                               ? 'No fraud indicators detected. Trader signals are consistent.'
-                              : `${fraud.length} risk indicator(s) identified.`}
+                              : `${fraud.length} risk indicator(s) identified requiring attention.`}
                           </p>
                         </div>
                       </div>
@@ -306,6 +325,7 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
               )}
             </TabsContent>
 
+            {/* Compliance Tab */}
             <TabsContent value="compliance" className="space-y-6 mt-6">
               {compliance && (
                 <div className="space-y-4">
@@ -316,9 +336,11 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
                         <div className="text-3xl font-bold">{compliance.overallCompliance}%</div>
                       </div>
                       <div className="w-full bg-muted rounded-full h-3">
-                        <div
-                          className="bg-gradient-to-r from-primary to-accent h-full rounded-full transition-all duration-1000"
-                          style={{ width: `${compliance.overallCompliance}%` }}
+                        <motion.div
+                          className="bg-gradient-to-r from-primary to-accent h-full rounded-full"
+                          initial={{ width: 0 }}
+                          animate={{ width: `${compliance.overallCompliance}%` }}
+                          transition={{ duration: 1 }}
                         />
                       </div>
                     </CardContent>
@@ -353,6 +375,7 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
               )}
             </TabsContent>
 
+            {/* AI Analysis Tab */}
             <TabsContent value="analysis" className="space-y-6 mt-6">
               {analysis && (
                 <div className="space-y-6">
@@ -387,11 +410,17 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
                       <CardContent>
                         <div className="space-y-4">
                           {analysis.formalizationPlan.map((phase: any, idx: number) => (
-                            <div key={idx} className="border-l-4 border-primary pl-4 py-3">
+                            <motion.div
+                              key={idx}
+                              className="border-l-4 border-primary pl-4 py-3"
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: idx * 0.1 }}
+                            >
                               <p className="font-semibold text-sm mb-1">{phase.phase}</p>
                               <p className="text-sm text-muted-foreground mb-2">{phase.description}</p>
                               <Badge variant="outline">{phase.timeline}</Badge>
-                            </div>
+                            </motion.div>
                           ))}
                         </div>
                       </CardContent>
@@ -435,7 +464,7 @@ export default function TraderDetailPage({ params }: { params: { id: string } })
               )}
             </TabsContent>
           </Tabs>
-        </div>
+        </motion.div>
       </div>
     </div>
   )
