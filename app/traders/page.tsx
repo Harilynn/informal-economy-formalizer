@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -19,25 +18,6 @@ import {
   Zap
 } from 'lucide-react'
 import { Trader } from '@/lib/mock-data'
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
-}
 
 export default function TradersPage() {
   const [traders, setTraders] = useState<Trader[]>([])
@@ -95,33 +75,20 @@ export default function TradersPage() {
     <div className="min-h-screen pt-24 pb-20">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-1/4 right-1/4 w-72 h-72 bg-accent/10 rounded-full blur-3xl"
-          animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
-          transition={{ duration: 10, repeat: Infinity }}
-        />
+        <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-accent/10 rounded-full blur-3xl animate-pulse-slow" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
+        <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Trader Profiles</h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Discover vetted traders with comprehensive economic identities and credit profiles
           </p>
-        </motion.div>
+        </div>
 
         {/* Search Bar */}
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
+        <div className="mb-8">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
@@ -131,16 +98,11 @@ export default function TradersPage() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-        </motion.div>
+        </div>
 
         {/* Stats Cards */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.div variants={itemVariants}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div>
             <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
@@ -152,9 +114,9 @@ export default function TradersPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
 
-          <motion.div variants={itemVariants}>
+          <div>
             <Card className="border-2 border-accent/20 bg-gradient-to-br from-accent/5 to-transparent">
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
@@ -170,9 +132,9 @@ export default function TradersPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
 
-          <motion.div variants={itemVariants}>
+          <div>
             <Card className="border-2 border-purple-400/20 bg-gradient-to-br from-purple-500/5 to-transparent">
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
@@ -188,8 +150,8 @@ export default function TradersPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         {/* Traders Grid */}
         {loading ? (
@@ -208,14 +170,13 @@ export default function TradersPage() {
             <p className="text-muted-foreground text-lg">No traders found matching your search.</p>
           </motion.div>
         ) : (
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <div className="text-center py-12">
+            <p className="text-muted-foreground text-lg">No traders found matching your search.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTraders.map((trader) => (
-              <motion.div key={trader.id} variants={itemVariants}>
+              <div key={trader.id}>
                 <Link href={`/traders/${trader.id}`}>
                   <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer h-full hover:scale-105 transform">
                     <CardHeader>
@@ -288,9 +249,9 @@ export default function TradersPage() {
                     </CardContent>
                   </Card>
                 </Link>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         )}
       </div>
     </div>
