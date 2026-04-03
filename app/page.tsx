@@ -93,10 +93,16 @@ export default function Home() {
 
   return (
     <div className="w-full">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
+      </div>
+
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center space-y-6 mb-12">
+          <div className="text-center space-y-6 mb-12 animate-fade-in">
             <div className="space-y-2">
               <Badge variant="outline" className="px-4 py-1.5">
                 <Zap className="w-3 h-3 mr-1" />
@@ -156,17 +162,19 @@ export default function Home() {
             {features.map((feature, idx) => {
               const Icon = feature.icon
               return (
-                <Card key={idx} className="hover:shadow-lg transition-shadow">
-                  <CardHeader className="pb-3">
-                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center mb-3`}>
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    <CardTitle className="text-lg">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{feature.description}</p>
-                  </CardContent>
-                </Card>
+                <div key={idx}>
+                  <Card className="hover:shadow-lg transition-shadow h-full hover:scale-105 transform duration-300">
+                    <CardHeader className="pb-3">
+                      <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center mb-3`}>
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <CardTitle className="text-lg">{feature.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">{feature.description}</p>
+                    </CardContent>
+                  </Card>
+                </div>
               )
             })}
           </div>
