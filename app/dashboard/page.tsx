@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -34,19 +33,6 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { mockTraders, generateCreditProfile } from '@/lib/mock-data'
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-}
 
 export default function DashboardPage() {
   const [traders, setTraders] = useState<typeof mockTraders>([])
@@ -126,24 +112,13 @@ export default function DashboardPage() {
     <div className="min-h-screen pt-24 pb-20">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-0 left-1/3 w-96 h-96 bg-primary/15 rounded-full blur-3xl"
-          animate={{ y: [0, 40, 0] }}
-          transition={{ duration: 12, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/15 rounded-full blur-3xl"
-          animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
-          transition={{ duration: 14, repeat: Infinity, delay: 1 }}
-        />
+        <div className="absolute top-0 left-1/3 w-96 h-96 bg-primary/15 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/15 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 space-y-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
+        <div>
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
@@ -160,7 +135,7 @@ export default function DashboardPage() {
               </Button>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Key Metrics */}
         {loading ? (
@@ -170,16 +145,11 @@ export default function DashboardPage() {
           </div>
         ) : (
           <>
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {metrics.map((metric, idx) => {
                 const Icon = metric.icon
                 return (
-                  <motion.div key={idx} variants={itemVariants}>
+                  <div key={idx}>
                     <Card className="hover:shadow-lg transition-shadow">
                       <CardHeader className="pb-3">
                         <div className="flex items-start justify-between">
@@ -190,34 +160,23 @@ export default function DashboardPage() {
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <motion.div
-                          className="text-2xl font-bold mb-1"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: idx * 0.1 + 0.2 }}
-                        >
+                        <div className="text-2xl font-bold mb-1">
                           {metric.value}
-                        </motion.div>
+                        </div>
                         <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
                           {metric.change}
                         </Badge>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </div>
                 )
               })}
-            </motion.div>
+            </div>
 
             {/* Charts Section */}
-            <motion.div
-              className="grid grid-cols-1 lg:grid-cols-2 gap-6"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.4 }}
-            >
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Credit Score Distribution */}
-              <motion.div variants={itemVariants}>
+              <div>
                 <Card>
                   <CardHeader>
                     <CardTitle>Credit Score Distribution</CardTitle>
@@ -238,10 +197,10 @@ export default function DashboardPage() {
                     )}
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
 
               {/* Risk Distribution */}
-              <motion.div variants={itemVariants}>
+              <div>
                 <Card>
                   <CardHeader>
                     <CardTitle>Risk Distribution</CardTitle>
@@ -272,10 +231,10 @@ export default function DashboardPage() {
                     )}
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
 
               {/* Traders by Country */}
-              <motion.div variants={itemVariants}>
+              <div>
                 <Card className="lg:col-span-1">
                   <CardHeader>
                     <CardTitle>Traders by Country</CardTitle>
@@ -296,10 +255,10 @@ export default function DashboardPage() {
                     )}
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
 
               {/* Recent Traders */}
-              <motion.div variants={itemVariants}>
+              <div>
                 <Card className="lg:col-span-1">
                   <CardHeader>
                     <CardTitle>Recent Traders</CardTitle>
@@ -307,12 +266,9 @@ export default function DashboardPage() {
                   <CardContent>
                     <div className="space-y-3">
                       {traders.slice(0, 4).map((trader, idx) => (
-                        <motion.div
+                        <div
                           key={idx}
                           className="flex items-start justify-between pb-3 border-b border-border last:border-0"
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: idx * 0.1 }}
                         >
                           <div className="flex-1">
                             <p className="font-medium text-sm">{trader.name}</p>
@@ -321,13 +277,13 @@ export default function DashboardPage() {
                           <Badge className="bg-green-50 text-green-700">
                             {trader.communityReputation}/100
                           </Badge>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </>
         )}
       </div>

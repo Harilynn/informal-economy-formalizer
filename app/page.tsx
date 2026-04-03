@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { 
   ArrowRight,
   TrendingUp,
@@ -18,26 +17,6 @@ import {
   FileText,
   Gauge
 } from 'lucide-react'
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: 'easeOut' },
-  },
-}
 
 export default function Home() {
   const stats = [
@@ -116,48 +95,29 @@ export default function Home() {
     <div className="w-full">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
-          animate={{ y: [0, 30, 0] }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
-          animate={{ y: [0, -30, 0] }}
-          transition={{ duration: 8, repeat: Infinity, delay: 1 }}
-        />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
       </div>
 
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            className="text-center space-y-6 mb-12"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div className="space-y-2" variants={itemVariants}>
+          <div className="text-center space-y-6 mb-12 animate-fade-in">
+            <div className="space-y-2">
               <Badge variant="outline" className="px-4 py-1.5">
                 <Zap className="w-3 h-3 mr-1" />
                 Formalize the Informal Economy
               </Badge>
-            </motion.div>
+            </div>
             
-            <motion.h1 
-              className="text-4xl md:text-6xl font-bold text-balance"
-              variants={itemVariants}
-            >
+            <h1 className="text-4xl md:text-6xl font-bold text-balance">
               Unlock Capital Access for 2+ Billion Workers
-            </motion.h1>
+            </h1>
             
-            <motion.p 
-              className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance"
-              variants={itemVariants}
-            >
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
               AI-powered platform that transforms informal economic signals into verifiable identities, credit profiles, and legal structures—unlocking access to capital for the world&apos;s informal workforce.
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <Link href="/traders">
@@ -198,17 +158,11 @@ export default function Home() {
             </p>
           </div>
 
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, idx) => {
               const Icon = feature.icon
               return (
-                <motion.div key={idx} variants={itemVariants}>
+                <div key={idx}>
                   <Card className="hover:shadow-lg transition-shadow h-full hover:scale-105 transform duration-300">
                     <CardHeader className="pb-3">
                       <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center mb-3`}>
@@ -220,10 +174,10 @@ export default function Home() {
                       <p className="text-sm text-muted-foreground">{feature.description}</p>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               )
             })}
-          </motion.div>
+          </div>
         </div>
       </section>
 
