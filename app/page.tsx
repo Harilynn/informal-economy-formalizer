@@ -120,6 +120,11 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Link href="/kenya-mvp">
+              <Button size="lg" variant="outline" className="gap-2 w-full sm:w-auto">
+                Kenya MVP <FileText className="w-4 h-4" />
+              </Button>
+            </Link>
             <Link href="/traders">
               <Button size="lg" className="gap-2 w-full sm:w-auto">
                 Explore Traders <ArrowRight className="w-4 h-4" />
@@ -223,6 +228,11 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/kenya-mvp">
+              <Button size="lg" variant="outline" className="gap-2 w-full sm:w-auto">
+                Launch Kenya MVP <FileText className="w-4 h-4" />
+              </Button>
+            </Link>
             <Link href="/traders">
               <Button size="lg" className="gap-2 w-full sm:w-auto">
                 Browse Traders <Users className="w-4 h-4" />

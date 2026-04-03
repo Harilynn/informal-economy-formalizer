@@ -11,7 +11,8 @@ import {
   BarChart3, 
   Settings,
   LogOut,
-  Home
+  Home,
+  FileText
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -23,6 +24,7 @@ export function Navigation() {
 
   const links = [
     { href: '/', label: 'Home', icon: Home },
+    { href: '/kenya-mvp', label: 'Kenya MVP', icon: FileText },
     { href: '/dashboard', label: 'Dashboard', icon: BarChart3 },
     { href: '/traders', label: 'Traders', icon: Users },
     { href: '/agents', label: 'Field Agents', icon: TrendingUp },
