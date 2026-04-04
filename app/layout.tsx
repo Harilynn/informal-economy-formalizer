@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   title: 'Informal Economy Formalizer',
   description: 'Bringing shadow economies into the system with AI-powered formalization',
   icons: {
-    icon: '/icon.svg',
-    apple: '/icon.svg',
+    icon: '/site-icon.svg',
+    apple: '/site-icon.svg',
   },
 }
 
