@@ -179,7 +179,7 @@ pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+Open [https://informal-economy-formalizer.vercel.app/) to view the application.
 
 ## 📊 Demo Data
 
@@ -238,25 +238,6 @@ If you are implementing the real MVP now, start with the Kenya execution bluepri
 - Insurance product eligibility
 - Government subsidy mapping
 - Regional expansion (10+ countries)
-
-## 🤝 Contributing
-
-Contributions welcome! Areas for improvement:
-- Additional country/regulatory support
-- Enhanced fraud detection
-- Real-world data integrations
-- Mobile app development
-
-## 📝 License
-
-[Your License Here]
-
-## 👥 Support
-
-For issues, features, or questions:
-- Email: info@formalizerinit.org
-- Docs: [Full Documentation](/)
-- Issues: GitHub Issues
 
 ---
 
